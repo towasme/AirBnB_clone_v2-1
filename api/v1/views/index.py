@@ -16,4 +16,15 @@ def status():
 @app_views.route('/api/v1/stats')
 def stats():
     """ retrieves number of objects by type """
-    return storage.count()
+    count_obj = {}
+    plurals={
+        "Amenity": "amenities",
+        "City": "cities",
+        "Place": "places",
+        "Review":  "reviews",
+        "State": "states",
+        "User": "users"
+    }
+    for key, value in plurals.items():
+        count_obj[value] = storage.count(key)
+    return jsonify(count_obj)
