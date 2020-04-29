@@ -13,11 +13,11 @@ def status():
     return jsonify(answer)
 
 
-@app_views.route('/api/v1/stats')
+@app_views.route('/stats')
 def stats():
     """ retrieves number of objects by type """
     count_obj = {}
-    plurals={
+    plurals = {
         "Amenity": "amenities",
         "City": "cities",
         "Place": "places",
