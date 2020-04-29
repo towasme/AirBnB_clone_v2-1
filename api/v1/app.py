@@ -3,12 +3,11 @@
 
 from api.v1.views import app_views
 from models import storage
-from flask import Flask, jsonify, make_response, abort
-import os
+from flask import Flask, jsonify, make_response
 
 
 app = Flask(__name__)
-app.register_blueprint(app_views, url_prefix='/api/v1')
+app.register_blueprint(app_views)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 
@@ -19,12 +18,11 @@ def error_404(exception):
         status code response. 
     """
     code_except = exception.__str__().split()[0]
-    description = exception.description
     return make_response(jsonify({"error": "Not found"}), code_except)
 
 
 @app.teardown_appcontext
-def teardown_db(exception):
+def teardown_db(self):
     """closes the storage on teardown"""
     storage.close()
 
