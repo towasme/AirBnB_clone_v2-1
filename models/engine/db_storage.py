@@ -58,7 +58,7 @@ class DBStorage:
     def save(self):
         """commit all changes of the current database session"""
         self.__session.commit()
-    
+
     def get(self, cls, id):
         """ cls: name of class and id is the string
             of the representation of the object
