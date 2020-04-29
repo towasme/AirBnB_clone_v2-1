@@ -28,4 +28,5 @@ def teardown_db(self):
 
 
 if __name__ == "__main__":
-    app.run(host=host, port=port, threaded=True)
+    app.run(host=getenv('HBNB_API_HOST'),
+            port=getenv('HBNB_API_PORT'), threaded=True)
