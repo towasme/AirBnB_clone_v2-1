@@ -63,16 +63,17 @@ class DBStorage:
         """ cls: name of class and id is the string
             of the representation of the object
         """
-        if cls is not None:
-            class_name = cls + "." + id
-            return class_name
+        if cls and id:
+            all_objects = self.all(cls)
+            class_name = cls.__name__+"."+id
+            return all_objects.get(class_name)
         return None
 
     def count(self, cls=None):
         """ A method to count the number of
             objects in storage:
         """
-        return (len(self.all(cls)))
+        return len(self.all(cls))
 
     def delete(self, obj=None):
         """delete from the current database session obj if not None"""
