@@ -1,13 +1,14 @@
 #!/usr/bin/python
 """ script that instance a flask variable """
 
+from api.v1.views import app_views
 from models import storage
 from flask import Flask
-from api.v1.views import app_views
+
 
 app = Flask(__name__)
-app.register_blueprint(app_views, url_prefix='/api/v1')
-
+app.register_blueprint(app_views)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 @app.teardown_appcontext
 def teardown_db(exception):

@@ -2,10 +2,12 @@
 """ routes file to work with flask """
 
 from api.v1.views import app_views
+from flask import jsonify
 
 
 @app_views.route('/status')
-def json_return:
+def status():
     """ return a json status OK """
-    status = {  "status": "OK"}
-    return status
+    answer = {"status": "OK"}
+    return jsonify(answer)
+
