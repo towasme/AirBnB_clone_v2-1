@@ -20,7 +20,7 @@ def error_404(exception):
     """
     code_except = exception.__str__().split()[0]
     description = exception.description
-    return make_response(jsonify({'Error': description}), code_except)
+    return make_response(jsonify({"error": "Not found"}), code_except)
 
 
 @app.teardown_appcontext
