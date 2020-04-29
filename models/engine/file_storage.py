@@ -12,6 +12,7 @@ from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+from os import getenv
 
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -64,16 +65,16 @@ class FileStorage:
             of the representation of the object
         """
         if cls and id:
-            class_name = cls + "." + id
             all_objects = self.all(cls)
-            return all_objects[class_name]
+            class_name = cls.__name__+"."+id
+            return all_objects.get(class_name)
         return None
 
     def count(self, cls=None):
         """ A method to count the number of
             objects in storage:
         """
-        return (len(self.all(cls)))
+        return len(self.all(cls))
 
     def delete(self, obj=None):
         """delete obj from __objects if it’s inside"""
