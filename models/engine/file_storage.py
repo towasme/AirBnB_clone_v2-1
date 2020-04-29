@@ -1,3 +1,4 @@
+
 #!/usr/bin/python3
 """
 Contains the FileStorage class
@@ -57,6 +58,22 @@ class FileStorage:
                 self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
         except:
             pass
+
+    def get(self, cls, id):
+        """ cls: name of class and id is the string
+            of the representation of the object
+        """
+        if cls and id:
+            class_name = cls + "." + id
+            all_objects = self.all(cls)
+            return all_objects[class_name]
+        return None
+
+    def count(self, cls=None):
+        """ A method to count the number of
+            objects in storage:
+        """
+        return (len(self.all(cls)))
 
     def delete(self, obj=None):
         """delete obj from __objects if it’s inside"""
