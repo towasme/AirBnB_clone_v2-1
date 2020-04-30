@@ -12,9 +12,10 @@ from api.v1.views import app_views
 def all_state():
     """ retrieves list of all states """
     all_states = storage.all(State)
+    states_list = []
     for state in all_states.values():
         states_list.append(state.to_dict())
-    return jsonify(all_states)
+    return jsonify(states_list)
 
 
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
@@ -36,7 +37,8 @@ def del_state(state_id):
     else:
         storage.delete(state_del)
         storage.save()
-        return jsonify({})
+        answer = {}
+        return jsonify(answer)
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -68,5 +70,5 @@ def update_state(state_id):
     for key, value in upd_state.items():
         if key not in list_ignore:
             setattr(state_to_update, key, value)
-            storage.save()
+    storage.save()
     return jsonify(state_to_update.to_dict())
