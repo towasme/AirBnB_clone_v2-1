@@ -63,7 +63,7 @@ def update_state(state_id):
     state_to_update = storage.get(State, state_id)
     if state_to_update is None:
         abort(404)
-    list_ignore = ['id', 'created_at', 'updated_at']
+    list_ignore = ['created_at', 'id', 'updated_at']
     for key, value in upd_state.items():
         if key not in list_ignore:
             setattr(state_to_update, key, value)
