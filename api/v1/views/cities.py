@@ -9,11 +9,11 @@ from api.v1.views import app_views
 from models.city import City
 
 
-@app_views.route('/states/<state_id>/cities', methods=['GET'], strict_slashes=False)
+@app_views.route('/states/<state_id>/cities',
+                 methods=['GET'], strict_slashes=False)
 def all_cities_from_state(state_id):
     """ retrieves list of all states """
     state_exist = storage.get(State, state_id)
-    print(state_exist)
     if state_exist is None:
         abort(404)
     all_cities = storage.all('City')
@@ -23,6 +23,7 @@ def all_cities_from_state(state_id):
             cities_list.append(city.to_dict())
     return jsonify(cities_list)
 
+
 @app_views.route('/cities/<city_id>', methods=['GET'], strict_slashes=False)
 def one_city(city_id):
     """ retrieves one city """
@@ -30,6 +31,7 @@ def one_city(city_id):
     if city_one is None:
         abort(404)
     return jsonify(city_one.to_dict())
+
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'],
                  strict_slashes=False)
@@ -43,6 +45,7 @@ def del_city(city_id):
         storage.save()
         answer = {}
         return jsonify(answer)
+
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
                  strict_slashes=False)
@@ -61,6 +64,7 @@ def create_city(state_id):
         return jsonify(city_created.to_dict()), 201
     else:
         return ("Missing name", 400)
+
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
 def update_city(city_id):
