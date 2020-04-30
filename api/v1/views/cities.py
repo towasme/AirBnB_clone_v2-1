@@ -61,3 +61,20 @@ def create_city(state_id):
         return jsonify(city_created.to_dict()), 201
     else:
         return ("Missing name", 400)
+
+@app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
+def update_city(city_id):
+    """ updates the city objects """
+    upd_city = request.get_json(silent=True)
+    if upd_city is None:
+        return "Not a JSON", 400
+    city_to_update = storage.get(City, city_id)
+    if city_to_update is None:
+        abort(404)
+    list_ignore = ['id', 'state_id', 'updated_at', 'created_at']
+    city_to_update.save()
+    for key, value in upd_city.items():
+        if key not in list_ignore:
+            setattr(city_to_update, key, value)
+    storage.save()
+    return jsonify(city_to_update.to_dict())
