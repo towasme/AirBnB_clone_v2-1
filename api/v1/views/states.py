@@ -52,6 +52,8 @@ def create_state():
         storage.new(state_created)
         storage.save()
         return jsonify(state_created.to_dict()), 201
+    else:
+        return ("Missing name", 400)
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
