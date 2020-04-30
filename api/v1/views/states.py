@@ -35,7 +35,7 @@ def del_state(state_id):
     if state_del is None:
         abort(404)
     else:
-        storage.delete(state_id)
+        storage.delete(state_del)
         storage.save()
         answer = {}
         return jsonify(answer)
@@ -52,12 +52,23 @@ def create_state():
         storage.new(state_created)
         storage.save()
         return jsonify(state_created.to_dict()), 201
+    else:
+        return ("Missing name", 400)
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-def update_state():
+def update_state(state_id):
     """ updates the state objects """
+    upd_state = request.get_json(silent=True)
+    if upd_state is None:
+        return "Not a JSON", 400
     state_to_update = storage.get(State, state_id)
     if state_to_update is None:
         abort(404)
-    return jsonify(state_one.to_dict())
+    list_ignore = ['id', 'created_at', 'updated_at']
+    state_to_update.save()
+    for key, value in upd_state.items():
+        if key not in list_ignore:
+            setattr(state_to_update, key, value)
+    storage.save()
+    return jsonify(state_to_update.to_dict())
