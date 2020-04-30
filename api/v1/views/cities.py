@@ -58,6 +58,7 @@ def create_city(state_id):
     if new_city is None:
         return "Not a JSON", 400
     if 'name' in new_city:
+        new_city['state_id'] = state_id
         city_created = City(**new_city)
         storage.new(city_created)
         storage.save()
