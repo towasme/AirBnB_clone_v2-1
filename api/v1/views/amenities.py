@@ -14,7 +14,7 @@ from models.amenity import Amenity
                  methods=['GET'], strict_slashes=False)
 def all_amenities():
     """ retrieves list of all amenities """
-    amenities_all = storage.all(Amenity)
+    amenities_all = storage.all('Amenity')
     amenity_list = []
     for amenity in amenities_all.values():
         amenity_list.append(amenity.to_dict())
@@ -38,10 +38,11 @@ def del_amenity(amenity_id):
     amenity_del = storage.get(Amenity, amenity_id)
     if amenity_del is None:
         abort(404)
-    storage.delete(amenity_del)
-    storage.save()
-    answer = {}
-    return jsonify(answer), 200
+    else:
+        storage.delete(amenity_del)
+        storage.save()
+        answer = {}
+        return jsonify(answer)
 
 
 @app_views.route('/amenities', methods=['POST'],
@@ -53,7 +54,7 @@ def create_amenity():
         return "Not a JSON", 400
     if 'name' in new_amenity:
         amenity_created = Amenity(**new_amenity)
-        storage.new(city_created)
+        storage.new(amenity_created)
         storage.save()
         return jsonify(amenity_created.to_dict()), 201
     else:
@@ -76,4 +77,4 @@ def update_amenity(amenity_id):
         if key not in list_ignore:
             setattr(amenity_to_update, key, value)
     storage.save()
-    return jsonify(amenity_to_update.to_dict()), 200
+    return jsonify(amenity_to_update.to_dict())
