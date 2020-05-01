@@ -13,7 +13,7 @@ from models.place import Place
 from models.review import Review
 
 
-@app_views.route('/places/<place_id>/reviews,
+@app_views.route('/places/<place_id>/reviews',
                  methods=['GET'], strict_slashes=False)
 def all_reviews(place_id):
     """ retrieves list of all reviews from a place """
@@ -27,7 +27,8 @@ def all_reviews(place_id):
     return jsonify(review_list)
 
 
-@app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
+@app_views.route('/reviews/<review_id>',
+                 methods=['GET'], strict_slashes=False)
 def one_review(review_id):
     """ retrieves one review """
     review_one = storage.get(Review, review_id)
@@ -36,7 +37,8 @@ def one_review(review_id):
     return jsonify(review_one.to_dict())
 
 
-@app_views.route('/reviews/<review_id>', methods=['DELETE'],
+@app_views.route('/reviews/<review_id>',
+                 methods=['DELETE'],
                  strict_slashes=False)
 def del_review(review_id):
     """ deletes one review """
@@ -50,8 +52,8 @@ def del_review(review_id):
         return jsonify(answer)
 
 
-@app_views.route('/places/<place_id>/reviews, methods=['POST'],
-                 strict_slashes=False)
+@app_views.route('/places/<place_id>/reviews',
+                 methods=['POST'], strict_slashes=False)
 def create_review():
     """ request to create a review """
     new_review = request.get_json(silent=True)
@@ -73,8 +75,8 @@ def create_review():
     return jsonify(review_created.to_dict()), 201
 
 
-@app_views.route('/reviews/<review_id>', methods=['PUT'],
-                 strict_slashes=False)
+@app_views.route('/reviews/<review_id>',
+                 methods=['PUT'], strict_slashes=False)
 def update_review(review_id):
     """ updates the review object """
     upd_review = request.get_json(silent=True)
