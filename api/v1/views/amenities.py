@@ -61,7 +61,7 @@ def create_amenity():
         return ("Missing name", 400)
 
 
-@app_views.route('/cities/amenities/<amenity_id>', methods=['PUT'],
+@app_views.route('/amenities/<amenity_id>', methods=['PUT'],
                  strict_slashes=False)
 def update_amenity(amenity_id):
     """ updates the amenity objects """
