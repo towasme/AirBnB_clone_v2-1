@@ -4,12 +4,15 @@ from api.v1.views import app_views
 from models import storage
 from flask import Flask, jsonify, make_response
 from os import getenv
+from flask_cors import CORS
+
 
 host = getenv('0.0.0.0')
 port = getenv('5000')
 app = Flask(__name__)
 app.register_blueprint(app_views)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+CORS(app, origins='0.0.0.0')
 
 
 @app.errorhandler(404)
