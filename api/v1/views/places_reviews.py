@@ -57,8 +57,8 @@ def del_review(review_id):
                  methods=['POST'], strict_slashes=False)
 def create_review():
     """ request to create a review """
-    new_review = request.get_json(silent=True)
-    if new_review is None:
+    new_review = request.get_json()
+    if not new_review:
         return "Not a JSON", 400
     one_place = storage.get(Place, place_id)
     if one_place is None:
@@ -66,7 +66,7 @@ def create_review():
     if 'user_id' not in new_review:
         return ("Missing user_id", 400)
     review_user_id = new_review.get('user_id')
-    review_user_exist = storage.get(Review, review_user_id)
+    review_user_exist = storage.get(User, review_user_id)
     if review_user_exist is None:
         abort(404)
     if 'text' not in new_review:
