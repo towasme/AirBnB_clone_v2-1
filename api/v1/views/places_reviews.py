@@ -17,11 +17,12 @@ from models.review import Review
                  methods=['GET'], strict_slashes=False)
 def all_reviews(place_id):
     """ retrieves list of all reviews from a place """
-    one_place = storage.get(Place, place_id)
-    if one_place is None:
+    place_exist = storage.get(Place, place_id)
+    if place_exist is None:
         abort(404)
+    reviews_all = storage.all('Review')
     review_list = []
-    for review in one_place.values():
+    for review in reviews_all.values():
         if review.place_id == place_id:
             review_list.append(review.to_dict())
     return jsonify(review_list)
